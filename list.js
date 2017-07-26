@@ -13,12 +13,20 @@ class FilterableProductTable extends React.Component{
       this.state={filterKeyword:'',isStocked:false};
     }
   
+  onStockOptionChange(checked){
+    this.setState({isStocked:checked});
+  }
+  
+   onKeywordChange(keyword){
+    this.setState({filterKeyword:keyword.toLowerCase()});
+  }
+  
     render(){
-     let productsAfterFilter = PRODUCTS.filter(p => p.name.includes(this.state.filterKeyword)).filter(p => !this.state.isStocked || p.stocked);
+     let productsAfterFilter = PRODUCTS.filter(p => p.name.toLowerCase().includes(this.state.filterKeyword)).filter(p => !this.state.isStocked || p.stocked);
      const productMap = this.groupByCategory(productsAfterFilter);
       return <div>
-         <SearchBar />
-         <StockFilter />
+         <SearchBar onKeywordChange={keyword => this.onKeywordChange(keyword)}/>
+         <StockFilter onStockOptionChange={checked => this.onStockOptionChange(checked)}/>
          <ProductTable products={productMap} />
        </div>
     }
@@ -31,36 +39,21 @@ class FilterableProductTable extends React.Component{
 		    return map;
       },new Map());
     }
-  
 }
 
 class SearchBar extends React.Component{
-    constructor(props){
-      super(props);
-    }
-  
     render(){
-      return <div><input placeholder="Search..." /></div>
+      return <div><input placeholder="Search..." onChange={e => this.props.onKeywordChange(e.target.value)}/></div>
     }
-  
 }
 
 class StockFilter extends React.Component{
-    constructor(props){
-      super(props);
-    }
-  
     render(){
-      return <div><input type='checkbox' /> Only show products in stock</div>
+      return <div><input type='checkbox' onChange={e=>this.props.onStockOptionChange(e.target.checked)}/> Only show products in stock</div>
     }
-  
 }
         
 class ProductRow extends React.Component{
-    constructor(props){
-      super(props);
-    }
-  
     render(){
       const item = this.props.item;
       return <tr className={item.stocked ? 'instock' : 'outstock'}><td>{item.name}</td><td>{item.price}</td></tr>
@@ -68,21 +61,12 @@ class ProductRow extends React.Component{
 }
 
 class ProductCategory extends React.Component{
-    constructor(props){
-      super(props);
-    }
-  
     render(){
       return <tr><th colSpan="2">{this.props.category}</th></tr>
     }
-  
 }
 
 class ProductTable extends React.Component{
-    constructor(props){
-      super(props);
-    }
-  
     render(){
        let rows = [];
        this.props.products.forEach((value,key) => 
