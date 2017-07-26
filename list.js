@@ -13,22 +13,22 @@ class FilterableProductTable extends React.Component{
       this.state={filterKeyword:'',isStocked:false};
     }
   
-  onStockOptionChange(checked){
-    this.setState({isStocked:checked});
-  }
+	onStockOptionChange(checked){
+    		this.setState({isStocked:checked});
+	}
   
-   onKeywordChange(keyword){
-    this.setState({filterKeyword:keyword.toLowerCase()});
-  }
+	onKeywordChange(keyword){
+		this.setState({filterKeyword:keyword.toLowerCase()});
+	}
   
     render(){
-     let productsAfterFilter = PRODUCTS.filter(p => p.name.toLowerCase().includes(this.state.filterKeyword)).filter(p => !this.state.isStocked || p.stocked);
-     const productMap = this.groupByCategory(productsAfterFilter);
-      return <div>
-         <SearchBar onKeywordChange={keyword => this.onKeywordChange(keyword)}/>
-         <StockFilter onStockOptionChange={checked => this.onStockOptionChange(checked)}/>
-         <ProductTable products={productMap} />
-       </div>
+		let productsAfterFilter = PRODUCTS.filter(p => p.name.toLowerCase().includes(this.state.filterKeyword)).filter(p => !this.state.isStocked || p.stocked);
+		const productMap = this.groupByCategory(productsAfterFilter);
+		return <div>
+				<SearchBar onKeywordChange={keyword => this.onKeywordChange(keyword)}/>
+         		<StockFilter onStockOptionChange={checked => this.onStockOptionChange(checked)}/>
+        		<ProductTable products={productMap} />
+       		</div>
     }
   
     groupByCategory(items){
@@ -41,39 +41,28 @@ class FilterableProductTable extends React.Component{
     }
 }
 
-class SearchBar extends React.Component{
-    render(){
-      return <div><input placeholder="Search..." onChange={e => this.props.onKeywordChange(e.target.value)}/></div>
-    }
+function SearchBar(props){
+      return <div><input placeholder="Search..." onChange={e => props.onKeywordChange(e.target.value)}/></div>
 }
 
-class StockFilter extends React.Component{
-    render(){
-      return <div><input type='checkbox' onChange={e=>this.props.onStockOptionChange(e.target.checked)}/> Only show products in stock</div>
-    }
+function StockFilter(props){
+	return <div><input type='checkbox' onChange={e=> props.onStockOptionChange(e.target.checked)}/> Only show products in stock</div>
 }
         
-class ProductRow extends React.Component{
-    render(){
-      const item = this.props.item;
-      return <tr className={item.stocked ? 'instock' : 'outstock'}><td>{item.name}</td><td>{item.price}</td></tr>
-    }
+function ProductRow(props){
+    return <tr className={props.item.stocked ? 'instock' : 'outstock'}><td>{props.item.name}</td><td>{props.item.price}</td></tr>
 }
 
-class ProductCategory extends React.Component{
-    render(){
-      return <tr><th colSpan="2">{this.props.category}</th></tr>
-    }
+function ProductCategory(props){
+	return <tr><th colSpan="2">{props.category}</th></tr>
 }
 
-class ProductTable extends React.Component{
-    render(){
+function ProductTable(props){
        let rows = [];
-       this.props.products.forEach((value,key) => 
-         rows.push(<ProductCategory category={key}  key={'c_' + key}/>, value.map(i => <ProductRow item={i} key={key + i.name}/>))
+       props.products.forEach((value,key) => 
+         rows.push(<ProductCategory category={key}  key={'c_' + key}/>, value.map(i => <ProductRow item={i} key={key + '_' + i.name}/>))
         );
       return <table><thead><tr><th>Name</th><th>Price</th></tr></thead><tbody>{rows}</tbody></table>;
-    }
 }
 
 ReactDOM.render(
