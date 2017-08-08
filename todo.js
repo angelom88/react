@@ -1,7 +1,7 @@
 class App extends React.Component{
   constructor(state){
     super(state);
-    this.state = {toDos:[], filter:'ALL', newTodoText: '', filter: 'All', id: 0};
+    this.state = {toDos:[], filter:'All', newTodoText: ''};
   }
   
   onAddToDoTextChange(text){
@@ -20,18 +20,17 @@ class App extends React.Component{
   
   onAddToDo(){
     this.setState((preState,props) => {
-      return {toDos: preState.toDos.concat({text: preState.newTodoText, completed : false, id: preState.id + 1}), newTodoText : '', id: preState.id + 1}
+      return {toDos: preState.toDos.concat({text: preState.newTodoText, completed: false, id: preState.toDos.length + 1}), newTodoText : ''}
     });
   }
   
   toggleComplete(todo, id){
 		 return todo.id !=id ? todo : Object.assign({},todo,{completed: !todo.completed});
-	}
+  }
   
   render(){
     let filter= this.state.filter;
     let newToDos= this.state.toDos.filter(i => filter == 'All' || i.completed == (filter == 'Complete'));
-    console.log(newToDos);
      return <div>
        <AddToDo text={this.state.newTodoText} onAddToDoTextChange={text => this.onAddToDoTextChange(text)} onAddToDo={e => this.onAddToDo()}/>
        <ShowToDos toDos={newToDos} onClick={id => this.onToggleToDo(id)}/>
@@ -55,10 +54,10 @@ function ToDo(props){
 }
 
 function Footer(props){
-      return <div>Show: { props.filters.map((item, i) => <Filter name={item} key={i} selectedName={props.selectedFilter} onFilterChange={filter => props.onFilterChange(filter)}/>) } </div>
+      return <div>Show: { props.filters.map((item, i) => <Filter name={item} key={i} selected={item == props.selectedFilter} onFilterChange={filter => props.onFilterChange(filter)}/>) } </div>
 }
 
 function Filter(props){
-	return (props.name == props.selectedName) ? <span> {props.name} </span> :  <span> <a href="#" onClick={e=> props.onFilterChange(props.name)}>{props.name}</a></span>
+	return props.selected ? <span> {props.name} </span> :  <span> <a href="#" onClick={e=> props.onFilterChange(props.name)}>{props.name}</a></span>
 }
 ReactDOM.render(<App />, document.getElementById('root'));
