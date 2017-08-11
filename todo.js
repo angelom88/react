@@ -38,24 +38,19 @@ class App extends React.Component{
   
 }
        
-function AddToDo(props){
-      return <div><input ref={props.inputRef}/>
-        <button onClick={props.onAddToDo}>Add Todo </button> </div>
-}
+const AddToDo = ({inputRef,onAddToDo}) => <div><input ref={inputRef}/><button onClick={onAddToDo}>Add Todo </button> </div>
        
-function ShowToDos(props){
-      return <ul>{props.toDos.map(item => <ToDo text={item.text} key={item.id} className={item.completed? 'completed': 'incompleted'} onClick={() => props.onClick(item.id)}/>)}</ul>
-}
+const ShowToDos = ({toDos, onClick}) => 
+      <ul>{toDos.map(item => <ToDo text={item.text} key={item.id} className={item.completed? 'completed': 'incompleted'} onClick={() => onClick(item.id)}/>)}</ul>
        
-function ToDo(props){
-      return <li onClick={props.onClick} className={props.className}>{props.text}</li>
-}
+const ToDo = ({onClick,className,text}) => <li onClick={onClick} className={className}>{text}</li>
 
-function Footer(props){
-      return <div>Show: { props.filters.map((item, i) => <Filter name={item} key={i} selected={item == props.selectedFilter} onFilterChange={() => props.onFilterChange(item)}/>) } </div>
-}
 
-function Filter(props){
-	return <span> {props.selected ? props.name :  <a href="#" onClick={props.onFilterChange}>{props.name}</a>} </span>
-}
+const Footer = ({filters, selectedFilter, onFilterChange}) =>
+      <div>Show: { filters.map((item, i) => <Filter name={item} key={i} selected={item == selectedFilter} onFilterChange={() => onFilterChange(item)}/>) } </div>
+
+
+const Filter = ({selected, name, onFilterChange}) => 
+	<span> {selected ? name :  <a href="#" onClick={onFilterChange}>{name}</a>} </span>
+
 ReactDOM.render(<App/>, document.getElementById('root'));
