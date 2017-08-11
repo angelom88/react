@@ -15,8 +15,8 @@ class App extends React.Component{
   }
   
   onAddToDo(){
-    let newTodo = this.newAddTodo.value;
-    this.newAddTodo.value = '';
+    let newTodo = document.getElementById('newTodoText').value;
+    document.getElementById('newTodoText').value = '';
     this.setState((preState,props) => {
       return {toDos: preState.toDos.concat({text: newTodo, completed: false, id: preState.toDos.length + 1})}
     });
@@ -30,7 +30,7 @@ class App extends React.Component{
     let filter= this.state.filter;
     let newToDos= this.state.toDos.filter(i => filter == 'All' || i.completed == (filter == 'Complete'));
      return <div>
-       <AddToDo inputRef={input => this.newAddTodo = input} onAddToDo={() => this.onAddToDo()}/>
+       <AddToDo onAddToDo={() => this.onAddToDo()}/>
        <ShowToDos toDos={newToDos} onClick={id => this.onToggleToDo(id)}/>
        <Footer onFilterChange={filter => this.onFilterChange(filter)} filters={['All', 'Active', 'Complete']} selectedFilter={filter} />
      </div>
@@ -38,7 +38,7 @@ class App extends React.Component{
   
 }
        
-const AddToDo = ({inputRef,onAddToDo}) => <div><input ref={inputRef}/><button onClick={onAddToDo}>Add Todo </button> </div>
+const AddToDo = ({onAddToDo}) => <div><input id='newTodoText'/><button onClick={onAddToDo}>Add Todo </button> </div>
        
 const ShowToDos = ({toDos, onClick}) => 
       <ul>{toDos.map(item => <ToDo text={item.text} key={item.id} className={item.completed? 'completed': 'incompleted'} onClick={() => onClick(item.id)}/>)}</ul>
