@@ -1,0 +1,17 @@
+.completed{
+  text-decoration: line-through;
+}
+.incompleted{
+  text-decoration: none;
+}
+.filter_link{
+  color:#08c;
+  cursor: pointer;
+  border-color: transparent;
+}
+
+.filter_link:hover{
+  color: #005580;
+  text-decoration: underline;
+  background-color: transparent
+}
