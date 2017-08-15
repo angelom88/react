@@ -1,8 +1,9 @@
+import * as types from "../constants/actionType";
 const toDos = (state = [], action) => {
     switch (action.type) {
-        case 'ADD_TO_DO':
+        case types.ADD_TO_DO:
             return [...state, { text: action.text, completed: false, id: state.length + 1 }];
-        case 'TOGGLE_TO_DO':
+        case types.TOGGLE_TO_DO:
             return state.map(todo => todo.id !== action.id ? todo : { ...todo, completed: !todo.completed });
         default:
             return state;
@@ -11,7 +12,7 @@ const toDos = (state = [], action) => {
 
 const filter = (state = 'All', { type, filter }) => {
     switch (type) {
-        case 'CHANGE_FILTER':
+        case types.CHANGE_FILTER:
             return filter;
         default:
             return state;

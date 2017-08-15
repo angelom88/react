@@ -1,5 +1,5 @@
 import React from 'react';
-import './Web.css';
+import './web.css';
 
 const AddToDo = ({ onAddToDo }) => <div><input id='newTodoInput' /><button onClick={onAddToDo}>Add Todo </button> </div>
 
@@ -10,9 +10,9 @@ const Footer = ({ selectedFilter, onFilterChange }) =>
     <div>Show: {['All', 'Active', 'Complete'].map(item => {
         let link = {};
         if (item !== selectedFilter) {
-            link = {className: 'filter_link', onClick: () => onFilterChange(item) }
+            link = { className: 'filter_link', onClick: () => onFilterChange(item) }
         }
-        return <span key={item} {...link}> { item } </span>
+        return <span key={item} {...link}> {item} </span>
     }
     )} </div>
 

@@ -1,15 +1,15 @@
 import React from 'react';
 import { Provider, connect } from 'react-redux'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
-import actions from '../actions/TodoList'
-import components from '../components/TodoList'
-import reducers from '../reducers/TodoList'
+import actions from '../actions/todoList'
+import components from '../components/todoList'
+import reducers from '../reducers/todoList'
 
 const AddToDoContainer = connect(null,
     { onAddToDo: actions.addToDo }
 )(components.AddToDo);
 
-const ShowToDosContainer = connect(state => { return { toDos: getVisibleTodos(state.toDos, state.filter) } },
+const ShowToDosContainer = connect(state => ({ toDos: getVisibleTodos(state.toDos, state.filter)}),
     { onClick: actions.toggleTodo }
 )(components.ShowToDos);
 
