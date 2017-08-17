@@ -1,7 +1,7 @@
 import React from 'react';
 import './web.css';
 
-const AddToDo = ({ onAddToDo }) => <div><input id='newTodoInput' /><button onClick={onAddToDo}>Add Todo </button> </div>
+const AddToDo = ({ onAddToDo }) => <div><input ref={input => this.newTodoInput = input} /><button onClick={() => onAddToDo(this.newTodoInput)}>Add Todo </button> </div>
 
 const ShowToDos = ({ toDos, onClick }) =>
     <ul>{toDos.map(item => <li key={item.id} className={item.completed ? 'completed' : 'incompleted'} onClick={() => onClick(item.id)}>{item.text}</li>)}</ul>

@@ -1,7 +1,7 @@
 import * as types from "../constants/actionType";
-function addToDo() {
-    let newTodoText = document.getElementById('newTodoInput').value;
-    document.getElementById('newTodoInput').value = '';
+function addToDo(newTodoInput) {
+    let newTodoText = newTodoInput.value;
+    newTodoInput.value = '';
     return { type: types.ADD_TO_DO, text: newTodoText };
 }
 function toggleTodo(id) {
